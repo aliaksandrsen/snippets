@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
 export const editSnippet = async (id: number, code: string) => {
-  const snippet = await db.snippet.update({
+  await db.snippet.update({
     where: {
       id,
     },
@@ -14,7 +14,8 @@ export const editSnippet = async (id: number, code: string) => {
     },
   });
 
-  redirect(`/snippets/${snippet.id}`);
+  revalidatePath(`/snippets/${id}`);
+  redirect(`/snippets/${id}`);
 };
 
 export const deleteSnippet = async (id: number) => {
